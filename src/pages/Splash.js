@@ -24,7 +24,7 @@ export default class Splash extends Lightning.Component{
                 src: Utils.asset("images/spinner.png"),
                 mountX: .5, x: 960, y: 920, alpha: 0.001, color: 0xaaffffff,
                 transitions: {
-                    alpha: {duration: 1, timingFunction}
+                    alpha: {duration: 2, timingFunction}
                 }
             }
         };
@@ -63,13 +63,11 @@ export default class Splash extends Lightning.Component{
                     }
                 }}
         ]});
+    }
 
-        /**
-         * @todo:
-         * Add _handleEnter(){}
-         * and on enter call Router.navigate("movies")
-         * to navigate to the correct route.
-         */
+    _handleLeft() {
+      console.log("LeftKey consumed by splash screen");
+      Router.navigate("movies")
     }
 
     _active() {

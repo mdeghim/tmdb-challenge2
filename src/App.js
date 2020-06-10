@@ -1,7 +1,8 @@
 import { Lightning, Utils, Router } from 'wpe-lightning-sdk';
 import provider from "./lib/data-provider";
 import routes from "./lib/routes";
-import {init as initApi} from "./lib/Api"
+import {init as initApi} from "./lib/api"
+import {Splash} from "./pages";
 
 export default class App extends Lightning.Component {
 
@@ -22,6 +23,10 @@ export default class App extends Lightning.Component {
         });
     }
 
+    _init() {
+      Router.navigate("splash")
+    }
+
     static _template() {
         return {
             Pages: {
@@ -35,10 +40,22 @@ export default class App extends Lightning.Component {
             },
             Loading: {
 
+            },
+            Wrapper:{
+                Label:{
+                    text:{}
+                }
             }
         };
     }
 
+    _handleEnter(){
+        // call
+    }
+
+    _handleLeft(){
+        console.log("Should not be consumed (just to be sure)");
+    }
 
      static _states() {
         return [
@@ -81,7 +98,7 @@ export default class App extends Lightning.Component {
     }
 
     _getFocused() {
-        return Router.getActivePage();
+        return Router.getActivePage()._getFocused();
     }
 
 }

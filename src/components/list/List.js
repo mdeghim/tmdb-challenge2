@@ -1,4 +1,5 @@
 import {Lightning} from "wpe-lightning-sdk";
+import Item from "../item/Item"
 
 export default class List extends Lightning.Component {
     static _template() {
@@ -18,10 +19,12 @@ export default class List extends Lightning.Component {
 
     _handleLeft() {
         // @todo: update index and call setIndex
+        this.setIndex(-1)
     }
 
     _handleRight() {
         // @todo: update index and call setIndex
+        this.setIndex(1)
     }
 
     setIndex(index) {
@@ -31,10 +34,22 @@ export default class List extends Lightning.Component {
          * that stores index and position movie component to focus
          * on selected item
          */
+         console.log("this.activeItem() %o",this.activeItem);
+         this.activeItem._unfocus()
+         this._index  += index
+         if(this._index === -1)
+            this._index = this.items.length-1
+        if(this._index === this.items.length)
+           this._index = 0
+        this.activeItem._focus()
     }
 
     set label(v) {
-        // @todo: update list title
+      this.tag('Label').patch({
+        text: {
+          text: v,
+        }
+      })
     }
 
     set movies(v) {
@@ -44,18 +59,23 @@ export default class List extends Lightning.Component {
         //         type: Item
         //     };
         // });
+        console.log(v);
+        this.tag("Movies").children = v.map((el, idx)=>{
+          return {
+                   x: idx * 220,
+                   item : el,
+                   type: Item
+              };
+      });
     }
 
     get items() {
-        return this.tag("Levels").children;
+        return this.tag("Movies").children;
     }
 
     get activeItem() {
-        // @todo: return selected item
+      console.log("pp %",this.items);
+        return this.items[this._index]
     }
 
-    _getFocused() {
-        // @todo:
-        // return activeItem
-    }
 }
